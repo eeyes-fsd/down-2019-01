@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Storage;
 
 class ItemsController extends Controller
 {
+
+    /**
+     * 获取所有软件列表
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index()
     {
         $items = Item::all();
@@ -19,6 +25,12 @@ class ItemsController extends Controller
         return ItemResource::collection($items);
     }
 
+    /**
+     * 增加新的软件
+     *
+     * @param ItemRequest $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function store(ItemRequest $request)
     {
         Item::create($request->only([
@@ -33,6 +45,37 @@ class ItemsController extends Controller
         ]));
 
         return response(null, 201);
+    }
+
+    /**
+     * 更新软件信息
+     *
+     * @param Item $item
+     * @param ItemRequest $request
+     */
+    public function update(Item $item, ItemRequest $request)
+    {
+        $item->update($request->only([
+            'name',
+            'description',
+            'crack',
+            'rank',
+            'mac_id',
+            'win_id',
+            'icon_path',
+            'enable',
+        ]));
+    }
+
+    /**
+     * 删除软件
+     *
+     * @param Item $item
+     * @throws \Exception
+     */
+    public function destroy(Item $item)
+    {
+        $item->delete();
     }
 
     /**
