@@ -16,4 +16,6 @@ Route::namespace('Api')->middleware(['bindings'])->group(function () {
     Route::get('files/refresh', 'FilesController@refresh')->name('files.refresh');
     Route::resource('items', 'ItemsController');
     Route::post('icons', 'ItemsController@upload_icon')->name('icon');
+    Route::get('comments/{user}', 'CommentsController@show')->name('comments.show');
+    Route::resource('comments', 'CommentsController', ['only' => ['index', 'store', 'destroy']]);
 });

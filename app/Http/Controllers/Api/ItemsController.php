@@ -33,7 +33,7 @@ class ItemsController extends Controller
      */
     public function store(ItemRequest $request)
     {
-        Item::create($request->only([
+        $item = Item::create($request->only([
             'name',
             'description',
             'crack',
@@ -79,6 +79,8 @@ class ItemsController extends Controller
     }
 
     /**
+     * 上传新的图标
+     *
      * @param Request $request
      * @param ImageUploadHandler $handler
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
@@ -95,6 +97,8 @@ class ItemsController extends Controller
     }
 
     /**
+     * 查看已有图标
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function get_icon()
