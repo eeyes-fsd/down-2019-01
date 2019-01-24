@@ -15,10 +15,10 @@ class CreateFilesTable extends Migration
     {
         Schema::create('files', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->comment('文件名称')->index()->unique();
+            $table->string('name')->comment('文件名称')->unique()->index();
             $table->string('path')->comment('文件相对路径');
             $table->bigInteger('size')->comment('文件大小');
-            $table->string('version')->comment('文件版本号');
+            $table->string('version')->nullable()->comment('文件版本号');
             $table->boolean('available')->comment('是否可用');
         });
     }

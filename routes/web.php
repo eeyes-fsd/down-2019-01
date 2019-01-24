@@ -11,3 +11,4 @@
 |
 */
 
+Route::get('/download/{file}', 'Api\FilesController@Download')->name('download');

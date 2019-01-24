@@ -11,4 +11,14 @@ class Item extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function win_file()
+    {
+        return $this->hasOne(File::class);
+    }
+
+    public function mac_file()
+    {
+        return $this->hasOne(File::class);
+    }
 }

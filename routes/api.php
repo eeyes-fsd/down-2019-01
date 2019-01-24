@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,3 +11,9 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::namespace('Api')->middleware(['bindings'])->group(function () {
+    Route::resource('files', 'FilesController', ['only' => ['index', 'update', 'destroy']]);
+    Route::get('files/refresh', 'FilesController@refresh')->name('files.refresh');
+    Route::resource('items', 'ItemsController');
+    Route::post('icons', 'ItemsController@upload_icon')->name('icon');
+});
