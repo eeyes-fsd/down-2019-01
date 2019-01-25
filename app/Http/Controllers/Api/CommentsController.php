@@ -20,20 +20,15 @@ class CommentsController extends Controller
      * 返回所有用户及其评论
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index()
     {
-        $users = User::paginate(20);
-        $data = [];
-        foreach ($users as $user)
-        {
-            dd($user->comments->count());
-            if ($user->comments->count() != 0) {
-                $data[] = $user;
-            }
-        }
-        return CommentsResource::collection($data);
-        //TODO 解决嵌套条件过滤问题
+        $this->authorize('index', Comment::class);
+
+        $users = User::has('comments')->paginate(20);
+
+        return CommentsResource::collection($users);
     }
 
     /**
@@ -44,6 +39,8 @@ class CommentsController extends Controller
      */
     public function show(User $user)
     {
+        $this->authorizeResource(Comment::class, $user);
+
         return new CommentsResource($user);
     }
 
@@ -55,8 +52,9 @@ class CommentsController extends Controller
      */
     public function store(CommentRequest $request)
     {
-        $data = $request->only('content');
-        $data['user_id'] = Auth::id();
+        $data = $request->only(['user_id', 'content']);
+
+        $data['admin'] = Auth::id() == 1;
 
         Comment::create($data);
 
@@ -72,6 +70,8 @@ class CommentsController extends Controller
      */
     public function destroy(Comment $comment)
     {
+        $this->authorize('delete', $comment);
+
         $comment->delete();
         return response();
     }

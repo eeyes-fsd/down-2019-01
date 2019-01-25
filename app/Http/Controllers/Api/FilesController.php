@@ -18,7 +18,7 @@ class FilesController extends Controller
     }
 
     /**
-     * 获取当文件列表
+     * 获取文件列表
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
@@ -64,6 +64,10 @@ class FilesController extends Controller
      */
     public function download(File $file, Request $request)
     {
+        if (!$request->has('t')) {
+            abort(400, '缺少参数t');
+        }
+
         // 记录下载
         Download::create([
             'file_id' => $file->id,

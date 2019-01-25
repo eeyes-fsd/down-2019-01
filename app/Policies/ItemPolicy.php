@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Comment;
+use App\Models\Item;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CommentPolicy
+class ItemPolicy
 {
     use HandlesAuthorization;
 
@@ -27,18 +27,13 @@ class CommentPolicy
         }
     }
 
-    public function index(User $user)
+    public function show(User $user)
     {
         return $user->isAdmin();
     }
 
-    public function show(User $user, User $commentUser)
+    public function update(User $user, Item $item)
     {
-        return $user->id === $commentUser->id;
-    }
-
-    public function delete(User $user, Comment $comment)
-    {
-        return $user->id === $comment->user_id;
+        return $user->isAdmin();
     }
 }

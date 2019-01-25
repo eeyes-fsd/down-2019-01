@@ -15,6 +15,7 @@ class CreateCommentsTable extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('admin')->comment('是否为管理员评论');
             $table->integer('user_id')->comment('用户外键');
             $table->text('content')->comment('评论内容');
             $table->timestamps();

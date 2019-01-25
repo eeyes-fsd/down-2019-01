@@ -17,7 +17,7 @@ class CheckPermission
     public function handle($request, Closure $next)
     {
         if (cidr_match($request->ip(), config('ip.allow'))) {
-            if (Auth::check()) {
+            if (Auth::guard('api')->check()) {
                 return $next($request);
             }
         }

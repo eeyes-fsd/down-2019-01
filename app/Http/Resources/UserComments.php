@@ -17,8 +17,9 @@ class UserComments extends JsonResource
         $comments = [];
         foreach ($this->comments as $comment) {
             $tmp = [
+                'is_admin' => $comment->admin,
                 'content' => $comment->content,
-                'created_at' => $comment->created_at,
+                'created_at' => $comment->created_at->toDateTimeString(),
             ];
             $comments[] = $tmp;
         }
@@ -27,7 +28,7 @@ class UserComments extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'comments' => $comments,
-            'active_at' => $this->active_at,
+            'updated_at' => $this->updated_at->toDateTimeString(),
         ];
     }
 }

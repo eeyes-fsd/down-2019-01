@@ -20,7 +20,6 @@ class CreateUsersTable extends Migration
             $table->string('username')->nullable()->comment('NetID');
             $table->string('password')->comment('密码');
             $table->string('role')->comment('用户角色');
-            $table->timestamp('active_at')->comment('最后活跃于');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -30,10 +30,13 @@ class ItemsController extends Controller
      *
      * @param ItemRequest $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(ItemRequest $request)
     {
-        $item = Item::create($request->only([
+        $this->authorize('show', Item::class);
+
+        Item::create($request->only([
             'name',
             'description',
             'crack',
@@ -52,9 +55,12 @@ class ItemsController extends Controller
      *
      * @param Item $item
      * @param ItemRequest $request
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Item $item, ItemRequest $request)
     {
+        $this->authorize('update', $request);
+
         $item->update($request->only([
             'name',
             'description',
@@ -75,6 +81,8 @@ class ItemsController extends Controller
      */
     public function destroy(Item $item)
     {
+        $this->authorize('update', $item);
+
         $item->delete();
     }
 
@@ -84,9 +92,12 @@ class ItemsController extends Controller
      * @param Request $request
      * @param ImageUploadHandler $handler
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function upload_icon(Request $request, ImageUploadHandler $handler)
     {
+        $this->authorize('update', Item::class);
+
         if ($request->hasFile('icon') && $request->file('icon')->isValid()) {
             $result = $handler->save($request->file('icon'), 'icon');
             if ($result) {
@@ -100,9 +111,12 @@ class ItemsController extends Controller
      * 查看已有图标
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function get_icon()
+    public function get_icons()
     {
+        $this->authorize('show', Item::class);
+
         $icons = Storage::allFiles('public/icon');
 
         return response()->json($icons, 200);
