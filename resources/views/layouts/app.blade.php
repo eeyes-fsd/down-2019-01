@@ -10,18 +10,24 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-
-    <title>@yield('title')-e快下</title>
+    <link rel="stylesheet" href="/static/dist/css/bulma.min.css">
+    <link rel="stylesheet" href="/static/index/css/index.css">
+    <link rel="stylesheet" href="/static/common/css/eeyes_common.css">
+    <title>e快下</title>
 </head>
 <body>
     <div id="app">
         @include('layouts._header')
+        <div>
+            <example></example>
+        </div>
         <div class="container">
-            @include('shared._messages')
+            <!-- @include('shared._messages') -->
             @yield('content')
         </div>
         @include('layouts._footer')
     </div>
+    <script src="/static/index/js/index.js"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>
